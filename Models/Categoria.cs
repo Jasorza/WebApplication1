@@ -9,7 +9,7 @@ namespace WebApplication1.Models
     public class Categoria
     {
         public int CategoriaID { get; set; }
-        [Required]
+        [Required (ErrorMessage = "Este campo es obligaro")]
         [StringLength(50, MinimumLength = 3, ErrorMessage = "El nombre debe de tener de 3 a 50 caracteres")]
         public string Nombre { get; set; }
         [StringLength(256)]
