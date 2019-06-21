@@ -21,14 +21,14 @@ namespace WebApplication1.Models
         // GET: Categorias
         public async Task<IActionResult> Index()
         {
-            ViewData["nombreSortParm"] = String.IsNullOrEmpty(SortOrder) ? "nombre_desc" : "";
-            ViewData["DescripcionSortParm"] = SortOrder == "descripcion_asc" ? "descripcion_desc" : "descripcion_asc";
+            ViewData["nombreSortParm"] = String.IsNullOrEmpty(sortOrder) ? "nombre_desc" : "";
+            ViewData["DescripcionSortParm"] = sortOrder == "descripcion_asc" ? "descripcion_desc" : "descripcion_asc";
 
             var categorias = from s
                              in _context.Categoria
                              select s;
 
-            switch (SortOrder)
+            switch (sortOrder)
             {
                 case "nombre_desc":
                     categorias = categorias.OrderByDescending(s => s.Nombre);
