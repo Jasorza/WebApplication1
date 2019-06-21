@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -20,6 +21,31 @@ namespace WebApplication1.Models
         // GET: Categorias
         public async Task<IActionResult> Index()
         {
+            ViewData["nombreSortParm"] = String.IsNullOrEmpty(SortOrder) ? "nombre_desc" : "";
+            ViewData["DescripcionSortParm"] = SortOrder == "descripcion_asc" ? "descripcion_desc" : "descripcion_asc";
+
+            var categorias = from s
+                             in _context.Categoria
+                             select s;
+
+            switch (SortOrder)
+            {
+                case "nombre_desc":
+                    categorias = categorias.OrderByDescending(s => s.Nombre);
+                    break;
+
+                case "descripcion_desc":
+                    categorias = categorias.OrderByDescending(s => s.Descripcion);
+                    break;
+
+                case "descripcion_asc":
+                    categorias = categorias.OrderBy(s => s.Descripcion);
+                    break;
+
+                default:
+                    categorias = categorias.OrderBy(s => s.Nombre);
+                    break;
+            }
             return View(await _context.Categoria.ToListAsync());
         }
 
